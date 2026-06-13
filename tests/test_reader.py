@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from codepile.reader import read_file, _mask_secrets_in_text
+from pilepack.reader import read_file, _mask_secrets_in_text
 
 def test_read_text_utf8(tmp_path):
     f = tmp_path / "test.txt"

@@ -1,5 +1,5 @@
 import pytest
-from codepile.collector import collect_files, build_tree
+from pilepack.collector import collect_files, build_tree
 from pathlib import Path
 
 def test_collect_files_respect_gitignore(test_project):

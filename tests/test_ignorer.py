@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from codepile.ignorer import load_gitignore, is_ignored
+from pilepack.ignorer import load_gitignore, is_ignored
 
 def test_load_gitignore_missing(tmp_path):
     spec = load_gitignore(tmp_path)

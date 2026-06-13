@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from codepile.formatter import render, _format_tree
+from pilepack.formatter import render, _format_tree
 
 def test_format_tree_simple():
     tree = {"a.py": None, "b": {"c.py": None}}
@@ -9,7 +9,7 @@ def test_format_tree_simple():
     assert "a.py" in result
 
 def test_render_txt(test_project, tmp_path):
-    from codepile.collector import collect_files, build_tree
+    from pilepack.collector import collect_files, build_tree
     files = collect_files(test_project, follow_gitignore=False)
     tree = build_tree(files)
     content_list = []
@@ -22,9 +22,9 @@ def test_render_txt(test_project, tmp_path):
     assert "def main():" in output
 
 def test_render_md(test_project):
-    from codepile.collector import collect_files, build_tree
+    from pilepack.collector import collect_files, build_tree
     files = collect_files(test_project, follow_gitignore=False)
-    tree = build_tree(files[:2])  # только два файла для краткости
+    tree = build_tree(files[:2])
     content_list = [(files[0], (test_project / files[0]).read_text())]
     output = render("test_project", tree, content_list, fmt="md")
     assert "## `main.py`" in output
