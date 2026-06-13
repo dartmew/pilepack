@@ -20,3 +20,10 @@ codepile = "codepile.cli:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["codepile*"]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0", "pytest-cov"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
