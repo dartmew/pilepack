@@ -1,11 +1,11 @@
-from ignorer import load_gitignore, is_ignored
+from .ignorer import load_gitignore, is_ignored
 from pathlib import Path
 from typing import Dict, List
 
 
-def collect_files(root_path: Path, follow_gitignore = True) -> list[Path]:
+def collect_files(root_path: Path, follow_gitignore: bool = True) -> list[Path]:
     if not root_path.is_dir():
-        raise NotADirectoryError(f"{root_path} не существует или не папка")
+        raise NotADirectoryError(f"{root_path} does not exist or is not a directory")
 
     if follow_gitignore:
         spec = load_gitignore(root_path)
