@@ -14,13 +14,15 @@ def test_write_report_txt(test_project):
     files = collect_files(test_project, follow_gitignore=False)
     tree = build_tree(files)
 
+    main_file = None
+    for f in files:
+        if f.name == "main.py":
+            main_file = f
+            break
+    assert main_file is not None, "main.py not found in test project"
+
     def content_gen():
-        for rel in files:
-            if rel.name == "main.py":
-                content = (test_project / rel).read_text()
-                yield rel, content
-            else:
-                yield rel, None   # others skipped for brevity
+        yield main_file, (test_project / main_file).read_text()
 
     stream = StringIO()
     write_report(stream, "test_project", tree, content_gen(), fmt="txt")
@@ -32,8 +34,11 @@ def test_write_report_md(test_project):
     files = collect_files(test_project, follow_gitignore=False)
     tree = build_tree(files[:2])
 
+    main_file = next((f for f in files if f.name == "main.py"), None)
+    assert main_file is not None, "main.py not found"
+
     def content_gen():
-        yield files[0], (test_project / files[0]).read_text()
+        yield main_file, (test_project / main_file).read_text()
 
     stream = StringIO()
     write_report(stream, "test_project", tree, content_gen(), fmt="md")
