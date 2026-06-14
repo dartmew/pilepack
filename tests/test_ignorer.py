@@ -22,9 +22,9 @@ def test_is_ignored_file(test_project):
     assert is_ignored(log_file, test_project, spec) is True
     assert is_ignored(test_project / "main.py", test_project, spec) is False
 
-def test_is_ignored_directory(test_project):
+def test_is_ignored_directory_contests(test_project):
     gitignore = test_project / ".gitignore"
     gitignore.write_text("temp/")
     spec = load_gitignore(test_project)
-    temp_dir = test_project / "temp"
-    assert is_ignored(temp_dir, test_project, spec) is True
+    inner_file = test_project / "temp" / "debug.log"
+    assert is_ignored(inner_file, test_project, spec) is True

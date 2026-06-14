@@ -23,6 +23,4 @@ def is_ignored(path, root: Path, spec: PathSpec) -> bool:
         return False
     rel_str = rel_path.as_posix()
 
-    if original.endswith(('/', '\\')) or (path_obj.exists() and path_obj.is_dir()):
-        rel_str += '/'
     return spec.match_file(rel_str)
