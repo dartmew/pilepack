@@ -3,13 +3,14 @@ from pathlib import Path
 from typing import Optional
 
 SECRET_PATTERNS = [
-    (r'(password|passwd|pwd)\s*[=:]\s*["\']?([^"\'\s]+)["\']?', r'\1="***"'),
-    (r'(api_key|apikey)\s*[=:]\s*["\']?([^"\'\s]+)["\']?', r'\1="***"'),
-    (r'(token|access_token)\s*[=:]\s*["\']?([^"\'\s]+)["\']?', r'\1="***"'),
-    (r'(secret|private_key)\s*[=:]\s*["\']?([^"\'\s]+)["\']?', r'\1="***"'),
-    (r'(?:\\b[A-Za-z0-9+/]{40,}\\b)', '***'),
-    (r'(?:\\b[0-9a-f]{32,}\\b)', '***')
+    (r'(password|passwd|pwd)(\s*[=:]\s*)(["\']?)([^"\'\s]+)(\3)', r'\1\2\3***\5'),
+    (r'(api_key|apikey)(\s*[=:]\s*)(["\']?)([^"\'\s]+)(\3)', r'\1\2\3***\5'),
+    (r'(token|access_token)(\s*[=:]\s*)(["\']?)([^"\'\s]+)(\3)', r'\1\2\3***\5'),
+    (r'(secret|private_key)(\s*[=:]\s*)(["\']?)([^"\'\s]+)(\3)', r'\1\2\3***\5'),
+    (r'\b[A-Za-z0-9+/]{40,}\b', '***'),
+    (r'\b[0-9a-f]{32,}\b', '***'),
 ]
+
 
 def _mask_secrets_in_text(text: str) -> str:
     for pattern, replacement in SECRET_PATTERNS:
