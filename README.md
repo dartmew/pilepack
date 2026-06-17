@@ -8,7 +8,7 @@
 [![CLI](https://img.shields.io/badge/CLI-ready-blue)](#-usage)
 
 **Pack your codebase into a single file for AI analysis**  
-Combine all your project files into one text file — perfect for sending to LLMs (ChatGPT, Claude, Copilot, Deepseek, etc.).
+Combine all your project files into one file — perfect for sending to LLMs (ChatGPT, Claude, Copilot, Deepseek, etc.).
 
 ---
 
