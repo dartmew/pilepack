@@ -2,6 +2,7 @@ import pytest
 from pathlib import Path
 import shutil
 
+
 @pytest.fixture
 def test_project(tmp_path):
     src = Path(__file__).parent / "fixtures" / "test_project"

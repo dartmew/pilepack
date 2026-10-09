@@ -1,14 +1,14 @@
-import pytest
-from pathlib import Path
 from io import StringIO
 from pilepack.formatter import write_report, _format_tree
 from pilepack.collector import collect_files, build_tree
+
 
 def test_format_tree_simple():
     tree = {"a.py": None, "b": {"c.py": None}}
     result = _format_tree(tree)
     assert "b/" in result
     assert "a.py" in result
+
 
 def test_write_report_txt(test_project):
     files = collect_files(test_project, follow_gitignore=False)
@@ -29,6 +29,7 @@ def test_write_report_txt(test_project):
     output = stream.getvalue()
     assert "--- FILE: main.py ---" in output
     assert "def main():" in output
+
 
 def test_write_report_md(test_project):
     files = collect_files(test_project, follow_gitignore=False)

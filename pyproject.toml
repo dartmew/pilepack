@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pilepack"
-version = "0.2.2"
+version = "0.3.0"
 description = "Pack your codebase into a single file for AI analysis"
 authors = [{ name = "Vasili S. Pribylov", email = "dartmew@yandex.com" }]
 license = { text = "MIT" }

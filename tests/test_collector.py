@@ -1,6 +1,9 @@
-import pytest
-from pilepack.collector import collect_files, build_tree
 from pathlib import Path
+
+import pytest
+
+from pilepack.collector import build_tree, collect_files
+
 
 def test_collect_files_respect_gitignore(test_project):
     (test_project / ".gitignore").write_text("utils/\n")
@@ -9,11 +12,13 @@ def test_collect_files_respect_gitignore(test_project):
     assert "utils/helpers.py" not in rel_paths
     assert "main.py" in rel_paths
 
+
 def test_collect_files_ignore_gitignore(test_project):
     (test_project / ".gitignore").write_text("main.py")
     files = collect_files(test_project, follow_gitignore=False)
     rel_paths = [str(p) for p in files]
     assert "main.py" in rel_paths
+
 
 def test_collect_files_excludes_git_and_gitignore(test_project):
     (test_project / ".git").mkdir()
@@ -24,6 +29,29 @@ def test_collect_files_excludes_git_and_gitignore(test_project):
     assert ".git" not in rel_paths
     assert ".gitignore" not in rel_paths
     assert "main.py" in rel_paths
+
+
+def test_collect_files_respect_pilignor(test_project):
+    (test_project / ".pilignor").write_text("utils/\n")
+    files = collect_files(test_project)
+    rel_paths = [str(p) for p in files]
+    assert "utils/helpers.py" not in rel_paths
+    assert "main.py" in rel_paths
+
+
+def test_collect_files_excludes_pilignor_itself(test_project):
+    (test_project / ".pilignor").write_text("data/\n")
+    files = collect_files(test_project)
+    rel_paths = [str(p) for p in files]
+    assert ".pilignor" not in rel_paths
+
+
+def test_collect_files_can_disable_pilignor(test_project):
+    (test_project / ".pilignor").write_text("main.py\n")
+    files = collect_files(test_project, follow_pilignor=False)
+    rel_paths = [str(p) for p in files]
+    assert "main.py" in rel_paths
+
 
 def test_collect_files_skips_symlinks_by_default(test_project, tmp_path):
     outside_file = tmp_path / "outside.txt"
@@ -39,6 +67,7 @@ def test_collect_files_skips_symlinks_by_default(test_project, tmp_path):
 
     assert "linked-outside.txt" not in rel_paths
 
+
 def test_collect_files_can_follow_symlinks_when_requested(test_project, tmp_path):
     outside_file = tmp_path / "outside.txt"
     outside_file.write_text("outside")
@@ -52,6 +81,7 @@ def test_collect_files_can_follow_symlinks_when_requested(test_project, tmp_path
     rel_paths = [str(p) for p in files]
 
     assert "linked-outside.txt" in rel_paths
+
 
 def test_build_tree():
     files = [Path("a/b/c.py"), Path("a/d.py"), Path("e.py")]

@@ -1,20 +1,22 @@
 from typing import Dict, TextIO
 
 
-def _format_tree(tree: Dict, prefix: str = '', is_last: bool = True) -> str:
+def _format_tree(tree: Dict, prefix: str = "", is_last: bool = True) -> str:
     lines = []
-    items = sorted(tree.items(), key=lambda x: (isinstance(x[1], dict), x[0].lower()), reverse=True)
+    items = sorted(
+        tree.items(), key=lambda x: (isinstance(x[1], dict), x[0].lower()), reverse=True
+    )
 
     for i, (name, subtree) in enumerate(items):
-        is_last_item = (i == len(items) - 1)
-        connector = '└── ' if is_last_item else '├── '
-        display_name = name + '/' if isinstance(subtree, dict) else name
+        is_last_item = i == len(items) - 1
+        connector = "└── " if is_last_item else "├── "
+        display_name = name + "/" if isinstance(subtree, dict) else name
         lines.append(prefix + connector + display_name)
 
         if isinstance(subtree, dict):
-            new_prefix = prefix + ('    ' if is_last_item else '│   ')
+            new_prefix = prefix + ("    " if is_last_item else "│   ")
             lines.append(_format_tree(subtree, new_prefix, is_last_item))
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def _write_txt(
@@ -51,11 +53,18 @@ def _write_md(
         if content is not None:
             ext = rel_path.suffix.lower()
             lang = {
-                '.py': 'python', '.js': 'javascript', '.ts': 'typescript',
-                '.html': 'html', '.css': 'css', '.json': 'json',
-                '.md': 'markdown', '.yaml': 'yaml', '.yml': 'yaml',
-                '.sh': 'bash', '.txt': 'text'
-            }.get(ext, 'text')
+                ".py": "python",
+                ".js": "javascript",
+                ".ts": "typescript",
+                ".html": "html",
+                ".css": "css",
+                ".json": "json",
+                ".md": "markdown",
+                ".yaml": "yaml",
+                ".yml": "yaml",
+                ".sh": "bash",
+                ".txt": "text",
+            }.get(ext, "text")
             stream.write(f"## `{rel_path}`\n\n```{lang}\n{content}\n```\n\n")
         else:
             stream.write(f"## `{rel_path}`\n\n*[BINARY OR UNREADABLE]*\n\n")
